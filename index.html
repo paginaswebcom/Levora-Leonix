@@ -4,342 +4,287 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LEVORA & LEONIX | Andy Casabe</title>
+    <title>Andy Casabe | LEVORA & LEONIX</title>
     
-    <!-- Fuentes de Alta Gama -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <!-- Fuentes Deportivas y Modernas -->
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Roboto:wght@300;400;700;900&display=swap" rel="stylesheet">
     
-    <!-- Iconos Profesionales -->
+    <!-- Iconos -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
         :root {
             --gold: #C5A059;
             --black: #000000;
-            --dark-gray: #111111;
             --white: #ffffff;
-            --light-gray: #fcfcfc;
-            --border: rgba(0,0,0,0.08);
-            --transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            --gray-dark: #1a1a1a;
+            --transition: all 0.4s ease;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
+            font-family: 'Roboto', sans-serif;
             scroll-behavior: smooth;
         }
 
         body {
             background-color: var(--white);
             color: var(--black);
-            line-height: 1.7;
             overflow-x: hidden;
         }
 
-        h1, h2, h3 {
-            font-family: 'Playfair Display', serif;
-            letter-spacing: -0.02em;
+        h1, h2, h3, .nav-links a {
+            font-family: 'Oswald', sans-serif;
+            text-transform: uppercase;
         }
 
-        /* --- NAVEGACIÓN ESTILO AGN --- */
+        /* --- NAVBAR ESTILO ST --- */
         nav {
-            background: rgba(255, 255, 255, 0.98);
-            height: 85px;
+            background: rgba(0, 0, 0, 0.9);
+            height: 90px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0 10%;
+            padding: 0 5%;
             position: fixed;
             width: 100%;
             top: 0;
             z-index: 2000;
-            border-bottom: 1px solid var(--border);
+            border-bottom: 2px solid var(--gold);
         }
 
         .logo {
-            font-size: 1.1rem;
-            font-weight: 800;
-            letter-spacing: 4px;
-            color: var(--black);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--white);
             text-decoration: none;
-            text-transform: uppercase;
+            letter-spacing: 2px;
         }
 
         .logo span { color: var(--gold); }
 
         .nav-links {
             display: flex;
-            gap: 40px;
+            gap: 25px;
             list-style: none;
         }
 
         .nav-links a {
             text-decoration: none;
-            color: var(--black);
-            font-weight: 500;
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
+            color: var(--white);
+            font-size: 1rem;
+            letter-spacing: 1px;
             transition: var(--transition);
         }
 
         .nav-links a:hover { color: var(--gold); }
 
-        /* --- HERO --- */
-        .hero {
+        /* --- SLIDER PRINCIPAL (CARRUSEL) --- */
+        .slider-container {
             height: 100vh;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+            background: #000;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
             display: flex;
             align-items: center;
             justify-content: center;
-            background-color: var(--black);
-            color: var(--white);
             text-align: center;
-            position: relative;
+            background-size: cover;
+            background-position: center;
         }
 
-        .hero::before {
+        .slide.active { opacity: 1; }
+
+        .slide::before {
             content: '';
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            background-image: url('https://www.transparenttextures.com/patterns/dark-matter.png');
-            opacity: 0.3;
+            background: rgba(0, 0, 0, 0.6);
         }
 
-        .hero-content {
+        .slide-content {
             position: relative;
             z-index: 10;
-            max-width: 1000px;
+            color: var(--white);
+            max-width: 900px;
             padding: 0 20px;
         }
 
-        .hero-tag {
-            color: var(--gold);
-            text-transform: uppercase;
-            letter-spacing: 8px;
-            font-weight: 700;
-            margin-bottom: 25px;
-            display: block;
-            font-size: 0.8rem;
-        }
-
-        .hero h1 {
-            font-size: clamp(3.2rem, 9vw, 6rem);
+        .slide-content h2 {
+            font-size: clamp(2.5rem, 8vw, 5.5rem);
             line-height: 1;
-            margin-bottom: 35px;
-        }
-
-        .hero p {
-            font-size: 1.1rem;
-            color: rgba(255,255,255,0.6);
-            margin-bottom: 45px;
-            font-weight: 300;
-            letter-spacing: 1px;
-            max-width: 650px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        /* --- BOTONES --- */
-        .btn {
-            display: inline-block;
-            padding: 20px 50px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            text-decoration: none;
-            transition: var(--transition);
-            font-size: 0.75rem;
-            cursor: pointer;
-        }
-
-        .btn-gold {
-            background: var(--gold);
+            margin-bottom: 20px;
             color: var(--white);
-            border: 1px solid var(--gold);
         }
 
-        .btn-gold:hover {
+        .slide-content h2 span { color: var(--gold); }
+
+        .slide-content p {
+            font-size: 1.2rem;
+            margin-bottom: 35px;
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+
+        .btn-st {
+            display: inline-block;
+            padding: 18px 45px;
+            background: var(--gold);
+            color: var(--black);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1rem;
+            border: 2px solid var(--gold);
+            transition: var(--transition);
+        }
+
+        .btn-st:hover {
             background: transparent;
             color: var(--gold);
         }
 
-        /* --- SECCIÓN NOSOTROS --- */
-        .about {
-            padding: 140px 10%;
+        /* --- SECCIONES DE INFO --- */
+        .section-padding { padding: 100px 8%; }
+
+        .about-st {
+            background: var(--white);
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 100px;
+            gap: 50px;
             align-items: center;
         }
 
-        .about-text h2 {
-            font-size: 3.2rem;
-            margin-bottom: 35px;
-            line-height: 1.1;
-        }
+        .about-st h2 { font-size: 3rem; margin-bottom: 25px; }
+        .about-st p { font-size: 1.1rem; line-height: 1.8; color: #444; margin-bottom: 20px; }
 
-        .about-text p {
-            color: #444;
-            margin-bottom: 25px;
-            font-size: 1.1rem;
-        }
-
-        .gold-line {
-            width: 50px;
-            height: 3px;
+        .about-image {
             background: var(--gold);
-            margin-bottom: 35px;
-        }
-
-        /* --- SERVICIOS --- */
-        .services {
-            background: var(--light-gray);
-            padding: 140px 10%;
-        }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: 90px;
-        }
-
-        .section-header span {
-            color: var(--gold);
-            letter-spacing: 5px;
-            font-weight: 700;
-            font-size: 0.8rem;
-            display: block;
-            margin-bottom: 15px;
-        }
-
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 2px;
-            background: var(--border);
-            border: 1px solid var(--border);
-        }
-
-        .service-card {
-            background: var(--white);
-            padding: 70px 50px;
-            transition: var(--transition);
+            height: 450px;
             display: flex;
-            flex-direction: column;
-            justify-content: space-between;
+            align-items: center;
+            justify-content: center;
+            position: relative;
         }
 
-        .service-card:hover {
-            background: var(--black);
+        /* --- GRID DE SERVICIOS (ESTILO BLOQUES ST) --- */
+        .services-st {
+            background: var(--gray-dark);
             color: var(--white);
+            text-align: center;
         }
 
-        .service-card i {
-            font-size: 2.2rem;
+        .services-st h2 { font-size: 3rem; margin-bottom: 60px; color: var(--gold); }
+
+        .st-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .st-card {
+            background: #252525;
+            padding: 50px 30px;
+            border-bottom: 4px solid transparent;
+            transition: var(--transition);
+        }
+
+        .st-card:hover {
+            border-bottom-color: var(--gold);
+            transform: translateY(-10px);
+            background: #333;
+        }
+
+        .st-card i {
+            font-size: 3.5rem;
             color: var(--gold);
-            margin-bottom: 40px;
+            margin-bottom: 25px;
         }
 
-        .service-card h3 {
-            font-size: 1.6rem;
-            margin-bottom: 20px;
-            font-family: 'Inter', sans-serif;
-            font-weight: 700;
-        }
-
-        .service-card p {
-            color: #666;
-            margin-bottom: 40px;
-            font-size: 0.95rem;
-        }
-
-        .service-card:hover p { color: rgba(255,255,255,0.6); }
+        .st-card h3 { font-size: 1.5rem; margin-bottom: 15px; }
+        .st-card p { font-size: 0.9rem; color: #aaa; }
 
         /* --- CONTACTO --- */
-        .contact {
-            padding: 140px 10%;
+        .contact-st {
             background: var(--black);
             color: var(--white);
-        }
-
-        .contact-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 120px;
         }
 
-        .contact-info h2 { font-size: 3.8rem; margin-bottom: 50px; }
+        .contact-box { padding: 80px 10%; }
+        .contact-box.dark { background: #0a0a0a; }
 
-        .contact-item {
-            display: flex;
-            align-items: center;
-            gap: 25px;
-            margin-bottom: 35px;
-        }
+        .contact-box h2 { font-size: 2.5rem; margin-bottom: 30px; color: var(--gold); }
 
-        .contact-item i { color: var(--gold); font-size: 1.4rem; }
-
-        .form-group { margin-bottom: 25px; }
-
-        .form-group input, .form-group textarea {
+        .form-st input, .form-st textarea {
             width: 100%;
-            background: #111;
-            border: 1px solid #222;
-            padding: 22px;
-            color: var(--white);
-            font-size: 0.9rem;
+            background: #1a1a1a;
+            border: 1px solid #333;
+            padding: 15px;
+            color: white;
+            margin-bottom: 15px;
             outline: none;
-            transition: var(--transition);
         }
 
-        .form-group input:focus, .form-group textarea:focus { border-color: var(--gold); }
+        .form-st button {
+            width: 100%;
+            padding: 15px;
+            background: var(--gold);
+            border: none;
+            font-weight: 700;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
 
         /* --- FOOTER --- */
         footer {
-            padding: 80px 10% 40px;
-            background: #000;
-            color: rgba(255,255,255,0.4);
+            background: var(--black);
+            padding: 50px 8%;
             text-align: center;
-            border-top: 1px solid #111;
+            border-top: 1px solid #222;
+            color: #666;
+            font-size: 0.8rem;
         }
 
-        .social-icons { margin-bottom: 40px; }
-        .social-icons a { color: var(--white); font-size: 1.3rem; margin: 0 20px; transition: var(--transition); }
-        .social-icons a:hover { color: var(--gold); }
-
-        /* --- WHATSAPP --- */
         .whatsapp-float {
             position: fixed;
-            bottom: 40px;
-            right: 40px;
+            bottom: 30px;
+            right: 30px;
             background: #25d366;
-            color: white;
-            width: 65px;
-            height: 65px;
+            width: 65px; height: 65px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
+            color: white;
             font-size: 35px;
             z-index: 3000;
-            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.4);
         }
 
-        @media (max-width: 992px) {
-            .about, .contact-grid { grid-template-columns: 1fr; gap: 70px; }
+        @media (max-width: 768px) {
+            .about-st, .contact-st { grid-template-columns: 1fr; }
             .nav-links { display: none; }
-            .hero h1 { font-size: 3.8rem; }
         }
     </style>
 </head>
 <body>
 
     <!-- WhatsApp -->
-    <a href="https://wa.me/5491138574364" class="whatsapp-float" target="_blank">
-        <i class="fab fa-whatsapp"></i>
-    </a>
+    <a href="https://wa.me/5491138574364" class="whatsapp-float" target="_blank"><i class="fab fa-whatsapp"></i></a>
 
+    <!-- Navbar -->
     <nav>
         <a href="#" class="logo">LEVORA <span>&</span> LEONIX</a>
         <ul class="nav-links">
@@ -350,113 +295,123 @@
         </ul>
     </nav>
 
-    <section class="hero" id="inicio">
-        <div class="hero-content">
-            <span class="hero-tag">Excelencia & Compromiso</span>
-            <h1>Andy Casabe</h1>
-            <p>Bienestar personal, formación educativa y estrategia digital bajo un mismo estándar de profesionalismo.</p>
-            <a href="#servicios" class="btn btn-gold">Ver Unidades de Negocio</a>
+    <!-- Slider Principal -->
+    <div class="slider-container" id="inicio">
+        <!-- Slide 1 -->
+        <div class="slide active" style="background-image: url('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=2070');">
+            <div class="slide-content">
+                <h2>GIMNASIA <span>INTEGRAL</span></h2>
+                <p>Salud y bienestar para todas las edades.</p>
+                <a href="#contacto" class="btn-st">Solicitar Horarios</a>
+            </div>
         </div>
-    </section>
+        <!-- Slide 2 -->
+        <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2071');">
+            <div class="slide-content">
+                <h2>PROFE DE <span>INGLÉS</span></h2>
+                <p>Clases dinámicas y personalizadas.</p>
+                <a href="#contacto" class="btn-st">Mas información</a>
+            </div>
+        </div>
+        <!-- Slide 3 -->
+        <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1542744094-24638eff58bb?q=80&w=2071');">
+            <div class="slide-content">
+                <h2>COMMUNITY <span>MANAGER</span></h2>
+                <p>Estrategia digital para potenciar tu marca.</p>
+                <a href="#contacto" class="btn-st">Ver Servicios Digitales</a>
+            </div>
+        </div>
+    </div>
 
-    <section class="about" id="nosotros">
+    <!-- Sobre Nosotros -->
+    <section class="section-padding about-st" id="nosotros">
         <div class="about-text">
-            <div class="gold-line"></div>
-            <h2>Profesionalismo y visión integral.</h2>
-            <p>Soy Andy Casabe, fundadora de Levora & Leonix. Como <strong>Profesora de Educación Física</strong> y <strong>Profe de Inglés</strong>, mi enfoque une la salud corporal con el desarrollo intelectual.</p>
-            <p>Además, mi labor como <strong>Community Manager</strong> me permite asesorar marcas para que su impacto en el mundo digital sea tan sólido como su crecimiento personal.</p>
+            <h2>Andy Casabe</h2>
+            <p><strong>Profesora de Educación Física</strong> y <strong>Profe de Inglés</strong>. En Levora & Leonix integramos el desarrollo físico con el aprendizaje de idiomas y el posicionamiento digital.</p>
+            <p>Ofrecemos una propuesta única en San Miguel del Monte, donde la profesionalidad y la calidez humana son los pilares de cada actividad.</p>
+            <a href="#servicios" class="btn-st" style="color: black;">Ver todas las áreas</a>
         </div>
-        <div style="background: #000; height: 500px; display: flex; align-items: center; justify-content: center; position: relative;">
-            <div style="width: 90%; height: 90%; border: 1px solid var(--gold); position: absolute;"></div>
-            <div style="z-index: 10; text-align: center; color: var(--white); padding: 40px;">
-                <i class="fas fa-quote-left" style="font-size: 2.5rem; color: var(--gold); margin-bottom: 25px;"></i>
-                <p style="font-family: 'Playfair Display', serif; font-size: 1.8rem; font-style: italic; line-height: 1.3;">"La armonía entre la mente, el cuerpo y la comunicación digital es la clave del crecimiento actual."</p>
-            </div>
-        </div>
-    </section>
-
-    <section class="services" id="servicios">
-        <div class="section-header">
-            <span>UNIDADES DE NEGOCIO</span>
-            <h2>Servicios Profesionales</h2>
-        </div>
-        
-        <div class="services-grid">
-            <div class="service-card">
-                <div>
-                    <i class="fas fa-graduation-cap"></i>
-                    <h3>Profe de Inglés</h3>
-                    <p>Clases personalizadas para todas las edades, enfocadas en una comunicación fluida y aprendizaje adaptado a cada alumno.</p>
-                </div>
-                <span style="font-weight: 700; font-size: 0.7rem; letter-spacing: 2px;">MÁS INFO +</span>
-            </div>
-
-            <div class="service-card">
-                <div>
-                    <i class="fas fa-running"></i>
-                    <h3>Gimnasia Integral</h3>
-                    <p>Clases de gimnasia para todas las edades lideradas por la Prof. Andy Casabe, enfocadas en la salud, movilidad y bienestar general.</p>
-                </div>
-                <span style="font-weight: 700; font-size: 0.7rem; letter-spacing: 2px;">MÁS INFO +</span>
-            </div>
-
-            <div class="service-card">
-                <div>
-                    <i class="fas fa-spa"></i>
-                    <h3>Masajes Corporales</h3>
-                    <p>Sesiones de masoterapia profesional diseñadas para la relajación, alivio de tensiones y recuperación del equilibrio físico.</p>
-                </div>
-                <span style="font-weight: 700; font-size: 0.7rem; letter-spacing: 2px;">MÁS INFO +</span>
-            </div>
-
-            <div class="service-card">
-                <div>
-                    <i class="fas fa-hashtag"></i>
-                    <h3>Community Manager</h3>
-                    <p>Gestión estratégica de redes sociales, creación de contenido visual y posicionamiento de marca en el entorno digital.</p>
-                </div>
-                <span style="font-weight: 700; font-size: 0.7rem; letter-spacing: 2px;">MÁS INFO +</span>
+        <div class="about-image">
+            <div style="text-align: center; color: black; padding: 40px;">
+                <i class="fas fa-medal" style="font-size: 4rem; margin-bottom: 20px;"></i>
+                <h3 style="font-size: 2rem;">COMPROMISO PROFESIONAL</h3>
             </div>
         </div>
     </section>
 
-    <section class="contact" id="contacto">
-        <div class="contact-grid">
-            <div class="contact-info">
-                <h2>Comencemos el camino.</h2>
-                <div class="contact-item">
-                    <i class="fas fa-map-marker-alt"></i>
-                    <p>San Miguel del Monte, Buenos Aires.</p>
-                </div>
-                <div class="contact-item">
-                    <i class="fab fa-whatsapp"></i>
-                    <p>+54 9 11 3857 4364</p>
-                </div>
-                <div class="contact-item">
-                    <i class="fas fa-envelope"></i>
-                    <p>levora.leonix@gmail.com</p>
-                </div>
-                <div style="margin-top: 50px;" class="social-icons">
-                    <a href="https://www.instagram.com/levora.leonix" target="_blank"><i class="fab fa-instagram"></i></a>
-                    <a href="https://www.tiktok.com/@levora.leonix" target="_blank"><i class="fab fa-tiktok"></i></a>
-                </div>
+    <!-- Unidades de Negocio -->
+    <section class="section-padding services-st" id="servicios">
+        <h2>Unidades de Negocio</h2>
+        <div class="st-grid">
+            <div class="st-card">
+                <i class="fas fa-graduation-cap"></i>
+                <h3>Profe de Inglés</h3>
+                <p>Aprendizaje efectivo para niños, jóvenes y adultos. Clases a medida.</p>
             </div>
-            <div class="contact-form">
-                <form>
-                    <div class="form-group"><input type="text" placeholder="NOMBRE" required></div>
-                    <div class="form-group"><input type="email" placeholder="EMAIL" required></div>
-                    <div class="form-group"><textarea rows="6" placeholder="¿EN QUÉ PODEMOS AYUDARTE?"></textarea></div>
-                    <button type="submit" class="btn btn-gold" style="width: 100%; border: none;">ENVIAR CONSULTA</button>
-                </form>
+            <div class="st-card">
+                <i class="fas fa-heartbeat"></i>
+                <h3>Gimnasia Integral</h3>
+                <p>Clases adaptadas para todas las edades. Enfoque en salud y movilidad corporal.</p>
             </div>
+            <div class="st-card">
+                <i class="fas fa-spa"></i>
+                <h3>Masajes Corporales</h3>
+                <p>Relajación profunda y masoterapia para la recuperación del bienestar físico.</p>
+            </div>
+            <div class="st-card">
+                <i class="fas fa-chart-line"></i>
+                <h3>Community Manager</h3>
+                <p>Gestión de redes, creación de contenido y branding estratégico.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contacto -->
+    <section class="contact-st" id="contacto">
+        <div class="contact-box dark">
+            <h2>Hablemos</h2>
+            <p style="margin-bottom: 30px; color: #888;">Estamos listos para ayudarte a alcanzar tus objetivos.</p>
+            <div style="margin-bottom: 20px;">
+                <p style="color: var(--gold); font-weight: 700;">WHATSAPP</p>
+                <p>+54 9 11 3857 4364</p>
+            </div>
+            <div style="margin-bottom: 20px;">
+                <p style="color: var(--gold); font-weight: 700;">UBICACIÓN</p>
+                <p>San Miguel del Monte, Buenos Aires</p>
+            </div>
+            <div style="margin-top: 30px;">
+                <a href="https://www.instagram.com/levora.leonix" style="color: white; font-size: 1.5rem; margin-right: 20px;"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.tiktok.com/@levora.leonix" style="color: white; font-size: 1.5rem;"><i class="fab fa-tiktok"></i></a>
+            </div>
+        </div>
+        <div class="contact-box">
+            <form class="form-st">
+                <input type="text" placeholder="NOMBRE COMPLETO" required>
+                <input type="email" placeholder="EMAIL DE CONTACTO" required>
+                <textarea rows="5" placeholder="¿EN QUÉ PODEMOS AYUDARTE?"></textarea>
+                <button type="submit">Enviar Consulta</button>
+            </form>
         </div>
     </section>
 
     <footer>
-        <p style="color: #fff; letter-spacing: 5px; font-weight: 700; margin-bottom: 25px;">LEVORA & LEONIX</p>
-        <p>© 2024 Andy Casabe | Todos los derechos reservados.</p>
-        <p style="font-size: 0.65rem; margin-top: 25px; opacity: 0.4;">DISEÑO POR ALONDRA SOLANGE FERNÁNDEZ</p>
+        <p>© 2024 Andy Casabe | LEVORA & LEONIX</p>
+        <p style="margin-top: 10px; opacity: 0.5;">DISEÑO POR ALONDRA SOLANGE FERNÁNDEZ</p>
     </footer>
+
+    <!-- Lógica del Slider -->
+    <script>
+        const slides = document.querySelectorAll('.slide');
+        let currentSlide = 0;
+
+        function nextSlide() {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (currentSlide + 1) % slides.length;
+            slides[currentSlide].classList.add('active');
+        }
+
+        setInterval(nextSlide, 5000); // Cambia cada 5 segundos
+    </script>
 
 </body>
 </html>
