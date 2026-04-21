@@ -135,7 +135,7 @@
             border-color: var(--accent);
         }
 
-        /* --- SECCIÓN SOBRE MÍ (ESTRUCTURA DE FOTO CORREGIDA) --- */
+        /* --- SECCIÓN SOBRE MÍ --- */
         .about {
             padding: 100px 10%;
             display: flex;
@@ -149,20 +149,20 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 350px; /* Asegura espacio mientras carga */
+            min-height: 350px;
         }
 
         .profile-photo {
             width: 100%;
             max-width: 400px;
             height: auto;
-            aspect-ratio: 1 / 1; /* Mantiene el círculo perfecto */
-            object-fit: cover; /* Evita que la foto se estire */
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
             border-radius: 50%;
             border: 6px solid var(--accent);
             box-shadow: 0 15px 35px rgba(0,0,0,0.15);
             transition: transform 0.4s ease;
-            background-color: #f9f9f9; /* Color de fondo mientras carga */
+            background-color: #f9f9f9;
         }
 
         .profile-photo:hover {
@@ -285,7 +285,6 @@
 
         .social-icons a:hover { color: var(--accent); }
 
-        /* RESPONSIVE */
         @media (max-width: 850px) {
             .about { flex-direction: column; text-align: center; }
             .section-title::after { left: 50%; transform: translateX(-50%); }
@@ -296,7 +295,6 @@
 </head>
 <body>
 
-    <!-- WhatsApp Flotante -->
     <a href="https://wa.me/5491138574364" class="whatsapp-float" target="_blank">
         <i class="fab fa-whatsapp"></i>
     </a>
@@ -323,13 +321,13 @@
 
     <section id="sobre-mi" class="about">
         <div class="about-img-container">
-            <!-- AQUÍ ESTÁ LA FOTO. Verifica que el archivo en GitHub se llame exactamente image.png -->
-            <img src="image.png" alt="Andy Casabe" class="profile-photo" onerror="this.src='https://via.placeholder.com/400?text=Cargando+Foto...'">
+            <!-- AQUÍ SE ACTUALIZÓ EL NOMBRE DEL ARCHIVO -->
+            <img src="IMG_0147.png" alt="Andy Casabe" class="profile-photo" onerror="this.src='https://via.placeholder.com/400?text=Cargando+Foto...'">
         </div>
         <div class="about-content">
             <h2 class="section-title">Andy Casabe</h2>
             <p>Soy Andy Casabe. Mi misión es el bienestar integral y el crecimiento personal a través de herramientas educativas, físicas y digitales.</p>
-            <p>Soy profesora de inglés, profesora de gimnasia (especialista en calistenia) y community manager. Integro el cuidado del cuerpo, la mente y la comunicación profesional.</p>
+            <p>Soy profesora de inglés, profesora de gimnasia y community manager. Integro el cuidado del cuerpo, la mente y la comunicación profesional.</p>
             <div style="margin-top: 25px;">
                 <a href="https://www.instagram.com/levora.leonix" target="_blank" style="color:#000; font-size:1.6rem; margin-right:20px;"><i class="fab fa-instagram"></i></a>
                 <a href="https://www.tiktok.com/@levora.leonix" target="_blank" style="color:#000; font-size:1.6rem;"><i class="fab fa-tiktok"></i></a>
@@ -340,52 +338,10 @@
     <section id="servicios" class="services">
         <h2 class="section-title" style="display: inline-block;">Nuestros Servicios</h2>
         <div class="services-grid">
-            <div class="service-card">
-                <i class="fas fa-book"></i>
-                <h3>Clases de Inglés</h3>
-                <p>Para todas las edades. Aprendizaje dinámico y efectivo.</p>
-            </div>
-            <div class="service-card">
-                <i class="fas fa-hashtag"></i>
-                <h3>Social Media</h3>
-                <p>Gestión de redes, creación de flyers y edición de videos.</p>
-            </div>
-            <div class="service-card">
-                <i class="fas fa-spa"></i>
-                <h3>Bienestar</h3>
-                <p>Sesiones de masajes y relajación corporal profesional.</p>
-            </div>
-            <div class="service-card">
-                <i class="fas fa-heartbeat"></i>
-                <h3>Fitness</h3>
-                <p>Entrenamiento personalizado y calistenia en equipo.</p>
-            </div>
-        </div>
-    </section>
-
-    <section class="work-banner">
-        <h2 style="font-size: 2.5rem; margin-bottom: 15px;">Centro Cristiano del Deporte</h2>
-        <p>Espacio dedicado al entrenamiento físico en San Miguel del Monte.</p>
-    </section>
-
-    <section id="contacto" class="contact">
-        <div class="contact-grid">
-            <div>
-                <h2 class="section-title">Contacto</h2>
-                <p style="margin-bottom: 25px;">Escribime para coordinar clases o servicios digitales.</p>
-                <form class="contact-form">
-                    <input type="text" placeholder="Tu Nombre" required>
-                    <textarea rows="5" placeholder="Tu Mensaje" required></textarea>
-                    <button type="submit" class="btn btn-gold" style="width: 100%; border: none;">Enviar consulta</button>
-                </form>
-            </div>
-            <div>
-                <h2 class="section-title">Ubicación</h2>
-                <p>San Miguel del Monte, Buenos Aires.</p>
-                <div style="height: 300px; background: #eee; margin-top: 20px;">
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d13054.673843516584!2d-58.8153351!3d-35.438515!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95954a7c065f9733%3A0xe544975231c5b8b!2sSan%20Miguel%20del%20Monte%2C%20Provincia%20de%20Buenos%20Aires!5e0!3m2!1ses!2sar!4v1700000000000!5m2!1ses!2sar" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-                </div>
-            </div>
+            <div class="service-card"><i class="fas fa-book"></i><h3>Clases de Inglés</h3></div>
+            <div class="service-card"><i class="fas fa-hashtag"></i><h3>Social Media</h3></div>
+            <div class="service-card"><i class="fas fa-spa"></i><h3>Bienestar</h3></div>
+            <div class="service-card"><i class="fas fa-heartbeat"></i><h3>Fitness</h3></div>
         </div>
     </section>
 
@@ -402,7 +358,6 @@
     <script>
         ScrollReveal().reveal('.section-title', { delay: 200, origin: 'bottom', distance: '20px' });
         ScrollReveal().reveal('.profile-photo', { delay: 300, origin: 'scale', distance: '0px' });
-        ScrollReveal().reveal('.service-card', { delay: 300, interval: 100, origin: 'bottom', distance: '30px' });
     </script>
 </body>
 </html>
