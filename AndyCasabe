@@ -1,0 +1,501 @@
+```html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LEVORA & LEONIX | Bienestar Integral</title>
+    
+    <!-- Fuentes Elegantes -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Iconos Modernos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Animaciones de Scroll -->
+    <script src="https://unpkg.com/scrollreveal"></script>
+
+    <style>
+        :root {
+            --primary: #000000;
+            --secondary: #ffffff;
+            --accent: #D4AF37; /* Dorado Premium */
+            --text-muted: #555555;
+            --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--secondary);
+            color: var(--primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, .brand-font {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* --- NAVEGACIÓN --- */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 10%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+        }
+
+        .logo {
+            font-size: 1.4rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: var(--primary);
+            text-decoration: none;
+            text-transform: uppercase;
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--primary);
+            font-weight: 400;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        /* --- HERO --- */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(rgba(255,255,255,0.9), rgba(255,255,255,0.9)), url('https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?auto=format&fit=crop&q=80&w=2067');
+            background-size: cover;
+            padding: 0 5%;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
+            margin-bottom: 10px;
+            letter-spacing: -1px;
+        }
+
+        .hero p.subtitle {
+            font-size: 1rem;
+            color: var(--accent);
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+
+        .hero h2 {
+            font-style: italic;
+            font-weight: 400;
+            max-width: 700px;
+            margin-bottom: 40px;
+            font-size: clamp(1.1rem, 3vw, 1.6rem);
+            color: #333;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 16px 35px;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            font-weight: 700;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .btn-gold {
+            background: var(--accent);
+            color: white;
+            border: 1px solid var(--accent);
+        }
+
+        .btn-gold:hover {
+            background: transparent;
+            color: var(--accent);
+            transform: translateY(-3px);
+        }
+
+        /* --- SOBRE MÍ --- */
+        .about {
+            padding: 100px 10%;
+            display: flex;
+            align-items: center;
+            gap: 80px;
+            background: #fff;
+        }
+
+        .about-img {
+            flex: 1;
+            position: relative;
+        }
+
+        .about-img img {
+            width: 100%;
+            max-width: 400px;
+            border-radius: 50%;
+            border: 5px solid var(--accent);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            transition: var(--transition);
+        }
+
+        .about-img:hover img {
+            transform: scale(1.02);
+            border-color: var(--primary);
+        }
+
+        .about-content {
+            flex: 1.2;
+        }
+
+        .section-title {
+            font-size: 2.2rem;
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background: var(--accent);
+        }
+
+        .about-content p {
+            margin-bottom: 20px;
+            font-size: 1.05rem;
+            color: var(--text-muted);
+        }
+
+        /* --- SERVICIOS --- */
+        .services {
+            padding: 100px 10%;
+            background: #fcfcfc;
+            text-align: center;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 25px;
+            margin-top: 50px;
+        }
+
+        .service-card {
+            padding: 40px 30px;
+            background: white;
+            border: 1px solid #f0f0f0;
+            transition: var(--transition);
+        }
+
+        .service-card i {
+            font-size: 2rem;
+            color: var(--accent);
+            margin-bottom: 20px;
+        }
+
+        .service-card h3 {
+            margin-bottom: 15px;
+            font-size: 1.25rem;
+            letter-spacing: 1px;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+
+        /* --- TIENDA --- */
+        .shop {
+            padding: 100px 10%;
+            text-align: center;
+        }
+
+        .shop-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .product-card {
+            border: 1px solid #eee;
+            padding-bottom: 25px;
+            transition: var(--transition);
+        }
+
+        .product-icon {
+            height: 250px;
+            background: #f9f9f9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: #ddd;
+            margin-bottom: 20px;
+        }
+
+        /* --- LUGAR DE TRABAJO --- */
+        .work-banner {
+            padding: 120px 10%;
+            text-align: center;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&q=80&w=2070');
+            background-size: cover;
+            background-attachment: fixed;
+            color: white;
+        }
+
+        /* --- CONTACTO --- */
+        .contact {
+            padding: 100px 10%;
+        }
+
+        .contact-box {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+        }
+
+        .contact-form input, .contact-form textarea {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            font-family: inherit;
+        }
+
+        /* --- WHATSAPP FLOAT --- */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #25d366;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            z-index: 999;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .whatsapp-float:hover { transform: scale(1.1) rotate(10deg); }
+
+        /* --- FOOTER --- */
+        footer {
+            background: var(--primary);
+            color: white;
+            padding: 60px 10% 30px;
+            text-align: center;
+        }
+
+        .footer-logo {
+            font-size: 1.8rem;
+            letter-spacing: 4px;
+            margin-bottom: 20px;
+        }
+
+        .social-icons {
+            margin-bottom: 30px;
+        }
+
+        .social-icons a {
+            color: white;
+            font-size: 1.5rem;
+            margin: 0 15px;
+            transition: var(--transition);
+        }
+
+        .social-icons a:hover { color: var(--accent); }
+
+        /* RESPONSIVE */
+        @media (max-width: 900px) {
+            .about { flex-direction: column; text-align: center; gap: 40px; }
+            .section-title::after { left: 50%; transform: translateX(-50%); }
+            .contact-box { grid-template-columns: 1fr; }
+            nav { padding: 15px 5%; }
+            .nav-links { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Botón WhatsApp con número actualizado -->
+    <a href="https://wa.me/5491138574364?text=Hola%20Andy,%20vengo%20desde%20tu%20web.%20Quiero%20m%C3%A1s%20informaci%C3%B3n%20sobre%20tus%20servicios." class="whatsapp-float" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <nav>
+        <a href="#" class="logo">LEVORA <span>&</span> LEONIX</a>
+        <ul class="nav-links">
+            <li><a href="#inicio">Inicio</a></li>
+            <li><a href="#sobre-mi">Sobre Mí</a></li>
+            <li><a href="#servicios">Servicios</a></li>
+            <li><a href="#tienda">Tienda</a></li>
+            <li><a href="#contacto">Contacto</a></li>
+        </ul>
+    </nav>
+
+    <section id="inicio" class="hero">
+        <p class="subtitle">Bienestar integral y crecimiento personal</p>
+        <h1>LEVORA & LEONIX</h1>
+        <h2>“Transformá tu bienestar, tu cuerpo y tu presencia digital en un solo lugar.”</h2>
+        <div style="display:flex; gap:15px; flex-wrap:wrap; justify-content:center;">
+            <!-- Número actualizado en el botón de inicio -->
+            <a href="https://wa.me/5491138574364?text=Hola%20Andy,%20quiero%20hacerte%20una%20consulta." class="btn btn-gold">WhatsApp</a>
+            <a href="#servicios" class="btn" style="border:1px solid #000; color:#000;">Servicios</a>
+        </div>
+    </section>
+
+    <section id="sobre-mi" class="about">
+        <div class="about-img">
+            <!-- Referencia a tu foto subida -->
+            <img src="image.png" alt="Andy Casabe">
+        </div>
+        <div class="about-content">
+            <h2 class="section-title">Andy Casabe</h2>
+            <p>Hola, soy Andy Casabe. Me dedico al bienestar integral y al crecimiento personal. Soy profesora de inglés, profesora de gimnasia y community manager profesional.</p>
+            <p>Mi objetivo es acompañarte en tu desarrollo personal, físico y profesional con un enfoque integral (mente, cuerpo y digital).</p>
+            <div style="margin-top:20px;">
+                <a href="https://www.instagram.com/levora.leonix" target="_blank" style="color:#000; font-size:1.5rem; margin-right:20px;"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.tiktok.com/@levora.leonix" target="_blank" style="color:#000; font-size:1.5rem;"><i class="fab fa-tiktok"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <section id="servicios" class="services">
+        <h2 class="section-title" style="display:inline-block;">Servicios</h2>
+        <div class="services-grid">
+            <div class="service-card">
+                <i class="fas fa-graduation-cap"></i>
+                <h3>Inglés</h3>
+                <p>Clases para todas las edades: niños, adultos y adultos mayores.</p>
+            </div>
+            <div class="service-card">
+                <i class="fas fa-bullhorn"></i>
+                <h3>Community Manager</h3>
+                <p>Gestión de redes, creación de flyers y edición de videos.</p>
+            </div>
+            <div class="service-card">
+                <i class="fas fa-hand-holding-heart"></i>
+                <h3>Masajes</h3>
+                <p>Sesiones de bienestar y relajación corporal integral.</p>
+            </div>
+            <div class="service-card">
+                <i class="fas fa-dumbbell"></i>
+                <h3>Gimnasia</h3>
+                <p>Entrenamiento físico y calistenia personalizada.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="tienda" class="shop">
+        <h2 class="section-title" style="display:inline-block;">Tienda</h2>
+        <div class="shop-grid">
+            <div class="product-card">
+                <div class="product-icon"><i class="fas fa-tshirt"></i></div>
+                <h3>Indumentaria Deportiva</h3>
+                <a href="https://wa.me/5491138574364" class="btn" style="border:1px solid #eee; margin-top:15px;">Consultar</a>
+            </div>
+            <div class="product-card">
+                <div class="product-icon"><i class="fas fa-heartbeat"></i></div>
+                <h3>Accesorios Fitness</h3>
+                <a href="https://wa.me/5491138574364" class="btn" style="border:1px solid #eee; margin-top:15px;">Consultar</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="work-banner">
+        <h2 style="font-size:2.5rem; margin-bottom:20px;">Centro Cristiano del Deporte</h2>
+        <p style="max-width:600px; margin: 0 auto 30px;">Profesora de gimnasia y calistenia en un espacio dedicado al desarrollo físico.</p>
+        <a href="https://www.instagram.com/centro_cristiano_del_deporte" target="_blank" class="btn btn-gold">Ver Instagram</a>
+    </section>
+
+    <section id="contacto" class="contact">
+        <div class="contact-box">
+            <div>
+                <h2 class="section-title">Escribime</h2>
+                <p style="margin-bottom: 20px; color: var(--text-muted);">Podés enviarme un mensaje directo o contactarme por WhatsApp al 11 3857-4364.</p>
+                <form class="contact-form" action="https://formspree.io/f/tu_id_aqui" method="POST">
+                    <input type="text" name="nombre" placeholder="Nombre" required>
+                    <input type="email" name="email" placeholder="Email" required>
+                    <textarea name="mensaje" rows="5" placeholder="Tu Mensaje" required></textarea>
+                    <button type="submit" class="btn btn-gold" style="width:100%; border:none;">Enviar Mensaje</button>
+                </form>
+            </div>
+            <div>
+                <h2 class="section-title">Ubicación</h2>
+                <p>San Miguel del Monte, Buenos Aires.</p>
+                <div style="height: 300px; background: #eee; margin-top: 20px;">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d13054.673843516584!2d-58.8153351!3d-35.438515!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95954a7c065f9733%3A0xe544975231c5b8b!2sSan%20Miguel%20del%20Monte%2C%20Provincia%20de%20Buenos%20Aires!5e0!3m2!1ses!2sar!4v1700000000000!5m2!1ses!2sar" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-logo brand-font">LEVORA & LEONIX</div>
+        <div class="social-icons">
+            <a href="https://www.instagram.com/levora.leonix" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.tiktok.com/@levora.leonix" target="_blank"><i class="fab fa-tiktok"></i></a>
+        </div>
+        <p>© 2024 LEVORA & LEONIX - Todos los derechos reservados</p>
+        <p style="font-size:0.7rem; color:#666; margin-top:15px;">Diseño por Alondra Solange Fernández</p>
+    </footer>
+
+    <script>
+        // Configuración de animaciones
+        ScrollReveal().reveal('.section-title', { delay: 200, origin: 'bottom', distance: '20px' });
+        ScrollReveal().reveal('.service-card', { delay: 300, interval: 100, origin: 'bottom', distance: '30px' });
+        ScrollReveal().reveal('.about-img', { delay: 200, origin: 'left', distance: '50px' });
+        ScrollReveal().reveal('.about-content', { delay: 400, origin: 'right', distance: '50px' });
+    </script>
+</body>
+</html>
+
+```
