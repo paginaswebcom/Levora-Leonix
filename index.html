@@ -1,419 +1,555 @@
-```html
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Andy Casabe | LEVORA & LEONIX</title>
+    <title>Generador de Certificados | Curso de Registración de Marcas – INPI Argentina</title>
     
-    <!-- Fuentes Deportivas y Modernas -->
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Roboto:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Iconos -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Tipografías editoriales y caligráficas elegantes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+    
+    <!-- html2pdf.js para exportación PDF horizontal nítida -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <style>
-        :root {
-            --gold: #C5A059;
-            --black: #000000;
-            --white: #ffffff;
-            --gray-dark: #1a1a1a;
-            --transition: all 0.4s ease;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Roboto', sans-serif;
-            scroll-behavior: smooth;
-        }
-
         body {
-            background-color: var(--white);
-            color: var(--black);
-            overflow-x: hidden;
+            font-family: 'Montserrat', sans-serif;
+            background-color: #fcf8fa;
+            color: #1a1a1a;
         }
 
-        h1, h2, h3, .nav-links a {
-            font-family: 'Oswald', sans-serif;
-            text-transform: uppercase;
+        .font-serif-title {
+            font-family: 'Playfair Display', serif;
         }
 
-        /* --- NAVBAR ESTILO ST --- */
-        nav {
-            background: rgba(0, 0, 0, 0.9);
-            height: 90px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 5%;
-            position: fixed;
+        .font-serif-body {
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        .font-signature {
+            font-family: 'Alex Brush', cursive;
+        }
+
+        /* Contenedor responsivo que centra y escala el diploma sin cortarlo */
+        .certificate-viewport {
             width: 100%;
-            top: 0;
-            z-index: 2000;
-            border-bottom: 2px solid var(--gold);
-        }
-
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--white);
-            text-decoration: none;
-            letter-spacing: 2px;
-        }
-
-        .logo span { color: var(--gold); }
-
-        .nav-links {
             display: flex;
-            gap: 25px;
-            list-style: none;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: var(--white);
-            font-size: 1rem;
-            letter-spacing: 1px;
-            transition: var(--transition);
-        }
-
-        .nav-links a:hover { color: var(--gold); }
-
-        /* --- SLIDER PRINCIPAL (CARRUSEL) --- */
-        .slider-container {
-            height: 100vh;
-            width: 100%;
-            position: relative;
+            justify-content: center;
+            align-items: flex-start;
             overflow: hidden;
-            background: #000;
         }
 
-        .slide {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            opacity: 0;
-            transition: opacity 1s ease-in-out;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            background-size: cover;
-            background-position: center;
-        }
-
-        .slide.active { opacity: 1; }
-
-        .slide::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.6);
-        }
-
-        .slide-content {
+        /* Dimensiones fijas A4 Horizontal (1122px x 794px) para que el PDF salga perfecto */
+        #certificate-canvas {
+            width: 1122px;
+            height: 794px;
+            min-width: 1122px;
+            min-height: 794px;
+            background-color: #ffffff;
             position: relative;
-            z-index: 10;
-            color: var(--white);
-            max-width: 900px;
-            padding: 0 20px;
+            box-sizing: border-box;
+            transform-origin: top center;
+            transition: transform 0.2s ease-out;
         }
 
-        .slide-content h2 {
-            font-size: clamp(2.5rem, 8vw, 5.5rem);
-            line-height: 1;
-            margin-bottom: 20px;
-            color: var(--white);
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-4px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-
-        .slide-content h2 span { color: var(--gold); }
-
-        .slide-content p {
-            font-size: 1.2rem;
-            margin-bottom: 35px;
-            font-weight: 300;
-            letter-spacing: 2px;
-        }
-
-        .btn-st {
-            display: inline-block;
-            padding: 18px 45px;
-            background: var(--gold);
-            color: var(--black);
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 1rem;
-            border: 2px solid var(--gold);
-            transition: var(--transition);
-        }
-
-        .btn-st:hover {
-            background: transparent;
-            color: var(--gold);
-        }
-
-        /* --- SECCIONES DE INFO --- */
-        .section-padding { padding: 100px 8%; }
-
-        .about-st {
-            background: var(--white);
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 50px;
-            align-items: center;
-        }
-
-        .about-st h2 { font-size: 3rem; margin-bottom: 25px; }
-        .about-st p { font-size: 1.1rem; line-height: 1.8; color: #444; margin-bottom: 20px; }
-
-        .about-image {
-            background: var(--gold);
-            height: 450px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-        }
-
-        /* --- GRID DE SERVICIOS (ESTILO BLOQUES ST) --- */
-        .services-st {
-            background: var(--gray-dark);
-            color: var(--white);
-            text-align: center;
-        }
-
-        .services-st h2 { font-size: 3rem; margin-bottom: 60px; color: var(--gold); }
-
-        .st-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-        }
-
-        .st-card {
-            background: #252525;
-            padding: 50px 30px;
-            border-bottom: 4px solid transparent;
-            transition: var(--transition);
-        }
-
-        .st-card:hover {
-            border-bottom-color: var(--gold);
-            transform: translateY(-10px);
-            background: #333;
-        }
-
-        .st-card i {
-            font-size: 3.5rem;
-            color: var(--gold);
-            margin-bottom: 25px;
-        }
-
-        .st-card h3 { font-size: 1.5rem; margin-bottom: 15px; }
-        .st-card p { font-size: 0.9rem; color: #aaa; }
-
-        /* --- CONTACTO --- */
-        .contact-st {
-            background: var(--black);
-            color: var(--white);
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-        }
-
-        .contact-box { padding: 80px 10%; }
-        .contact-box.dark { background: #0a0a0a; }
-
-        .contact-box h2 { font-size: 2.5rem; margin-bottom: 30px; color: var(--gold); }
-
-        .form-st input, .form-st textarea {
-            width: 100%;
-            background: #1a1a1a;
-            border: 1px solid #333;
-            padding: 15px;
-            color: white;
-            margin-bottom: 15px;
-            outline: none;
-        }
-
-        .form-st button {
-            width: 100%;
-            padding: 15px;
-            background: var(--gold);
-            border: none;
-            font-weight: 700;
-            cursor: pointer;
-            text-transform: uppercase;
-        }
-
-        /* --- FOOTER --- */
-        footer {
-            background: var(--black);
-            padding: 50px 8%;
-            text-align: center;
-            border-top: 1px solid #222;
-            color: #666;
-            font-size: 0.8rem;
-        }
-
-        .whatsapp-float {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background: #25d366;
-            width: 65px; height: 65px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 35px;
-            z-index: 3000;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.4);
-        }
-
-        @media (max-width: 768px) {
-            .about-st, .contact-st { grid-template-columns: 1fr; }
-            .nav-links { display: none; }
+        .animate-fade-in {
+            animation: fadeIn 0.25s ease-out forwards;
         }
     </style>
 </head>
-<body>
+<body class="min-h-screen flex flex-col justify-between selection:bg-pink-100 selection:text-pink-900">
 
-    <!-- WhatsApp -->
-    <a href="https://wa.me/5491138574364" class="whatsapp-float" target="_blank"><i class="fab fa-whatsapp"></i></a>
+    <!-- ENCABEZADO -->
+    <header class="bg-white border-b border-pink-100 shadow-sm">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 py-4 flex flex-col sm:flex-row items-center justify-between gap-2 text-center sm:text-left">
+            <div>
+                <span class="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#D85A88]">Portal Oficial de Certificación</span>
+                <h1 class="text-base sm:text-lg font-bold text-neutral-900">Curso de Registración de Marcas – INPI Argentina</h1>
+            </div>
+            <div class="text-xs text-neutral-600 bg-[#fdf3f7] px-3.5 py-1.5 rounded-full border border-[#f5d0de]">
+                Autora: <strong class="text-neutral-900">Alondra Solange Fernández</strong>
+            </div>
+        </div>
+    </header>
 
-    <!-- Navbar -->
-    <nav>
-        <a href="#" class="logo">LEVORA <span>&</span> LEONIX</a>
-        <ul class="nav-links">
-            <li><a href="#inicio">Inicio</a></li>
-            <li><a href="#nosotros">Nosotros</a></li>
-            <li><a href="#servicios">Servicios</a></li>
-            <li><a href="#contacto">Contacto</a></li>
-        </ul>
-    </nav>
+    <!-- CONTENIDO PRINCIPAL (ARRIBA: FORMULARIO | ABAJO: DIPLOMA) -->
+    <main class="max-w-5xl w-full mx-auto px-4 sm:px-6 py-8 flex-grow space-y-8">
+        
+        <!-- 1. PANEL SUPERIOR: FORMULARIO DEL ALUMNO -->
+        <section class="bg-white rounded-2xl shadow-sm border border-pink-100 p-6 sm:p-8">
+            <div class="max-w-3xl mx-auto">
+                <div class="text-center mb-6">
+                    <h2 class="text-2xl sm:text-3xl font-serif-title font-bold text-neutral-900">
+                        Generá tu Certificado Personalizado
+                    </h2>
+                    <p class="text-xs sm:text-sm text-neutral-600 mt-1.5">
+                        Ingresá tu nombre completo y la fecha en que finalizaste el curso. Luego descargalo en PDF.
+                    </p>
+                </div>
 
-    <!-- Slider Principal -->
-    <div class="slider-container" id="inicio">
-        <!-- Slide 1 -->
-        <div class="slide active" style="background-image: url('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=2070');">
-            <div class="slide-content">
-                <h2>GIMNASIA <span>INTEGRAL</span></h2>
-                <p>Salud y bienestar para todas las edades.</p>
-                <a href="#contacto" class="btn-st">Solicitar Horarios</a>
-            </div>
-        </div>
-        <!-- Slide 2 -->
-        <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2071');">
-            <div class="slide-content">
-                <h2>PROFE DE <span>INGLÉS</span></h2>
-                <p>Clases dinámicas y personalizadas.</p>
-                <a href="#contacto" class="btn-st">Mas información</a>
-            </div>
-        </div>
-        <!-- Slide 3 -->
-        <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1542744094-24638eff58bb?q=80&w=2071');">
-            <div class="slide-content">
-                <h2>COMMUNITY <span>MANAGER</span></h2>
-                <p>Estrategia digital para potenciar tu marca.</p>
-                <a href="#contacto" class="btn-st">Ver Servicios Digitales</a>
-            </div>
-        </div>
-    </div>
+                <!-- Mensaje de aviso / confirmación -->
+                <div id="feedback-message" class="hidden mb-5 p-3.5 rounded-xl text-xs sm:text-sm font-medium text-center animate-fade-in"></div>
 
-    <!-- Sobre Nosotros -->
-    <section class="section-padding about-st" id="nosotros">
-        <div class="about-text">
-            <h2>Andy Casabe</h2>
-            <p><strong>Profesora de Educación Física</strong> y <strong>Profe de Inglés</strong>. En Levora & Leonix integramos el desarrollo físico con el aprendizaje de idiomas y el posicionamiento digital.</p>
-            <p>Ofrecemos una propuesta única en San Miguel del Monte, donde la profesionalidad y la calidez humana son los pilares de cada actividad.</p>
-            <a href="#servicios" class="btn-st" style="color: black;">Ver todas las áreas</a>
-        </div>
-        <div class="about-image">
-            <div style="text-align: center; color: black; padding: 40px;">
-                <i class="fas fa-medal" style="font-size: 4rem; margin-bottom: 20px;"></i>
-                <h3 style="font-size: 2rem;">COMPROMISO PROFESIONAL</h3>
-            </div>
-        </div>
-    </section>
+                <form id="certificate-form" class="space-y-5" novalidate>
+                    <div class="grid grid-cols-1 sm:grid-cols-12 gap-4 items-end">
+                        <!-- Campo: Nombre y Apellido -->
+                        <div class="sm:col-span-7">
+                            <label for="student-name" class="block text-xs font-semibold uppercase tracking-wider text-neutral-700 mb-1.5">
+                                Nombre y Apellido <span class="text-[#D85A88]">*</span>
+                            </label>
+                            <input 
+                                type="text" 
+                                id="student-name" 
+                                placeholder="Ej: María Florencia Gómez"
+                                maxlength="55"
+                                autocomplete="name"
+                                class="w-full px-4 py-3 rounded-xl border border-neutral-300 text-neutral-900 text-sm focus:outline-none focus:ring-2 focus:ring-[#D85A88] focus:border-[#D85A88] transition bg-neutral-50/40 focus:bg-white"
+                                required
+                            >
+                        </div>
 
-    <!-- Unidades de Negocio -->
-    <section class="section-padding services-st" id="servicios">
-        <h2>Unidades de Negocio</h2>
-        <div class="st-grid">
-            <div class="st-card">
-                <i class="fas fa-graduation-cap"></i>
-                <h3>Profe de Inglés</h3>
-                <p>Aprendizaje efectivo para niños, jóvenes y adultos. Clases a medida.</p>
-            </div>
-            <div class="st-card">
-                <i class="fas fa-heartbeat"></i>
-                <h3>Gimnasia Integral</h3>
-                <p>Clases adaptadas para todas las edades. Enfoque en salud y movilidad corporal.</p>
-            </div>
-            <div class="st-card">
-                <i class="fas fa-spa"></i>
-                <h3>Masajes Corporales</h3>
-                <p>Relajación profunda y masoterapia para la recuperación del bienestar físico.</p>
-            </div>
-            <div class="st-card">
-                <i class="fas fa-chart-line"></i>
-                <h3>Community Manager</h3>
-                <p>Gestión de redes, creación de contenido y branding estratégico.</p>
-            </div>
-        </div>
-    </section>
+                        <!-- Campo: Fecha de finalización -->
+                        <div class="sm:col-span-5">
+                            <label for="completion-date" class="block text-xs font-semibold uppercase tracking-wider text-neutral-700 mb-1.5">
+                                Fecha en que terminó el curso <span class="text-[#D85A88]">*</span>
+                            </label>
+                            <input 
+                                type="date" 
+                                id="completion-date" 
+                                class="w-full px-4 py-3 rounded-xl border border-neutral-300 text-neutral-900 text-sm focus:outline-none focus:ring-2 focus:ring-[#D85A88] focus:border-[#D85A88] transition bg-neutral-50/40 focus:bg-white"
+                                required
+                            >
+                        </div>
+                    </div>
 
-    <!-- Contacto -->
-    <section class="contact-st" id="contacto">
-        <div class="contact-box dark">
-            <h2>Hablemos</h2>
-            <p style="margin-bottom: 30px; color: #888;">Estamos listos para ayudarte a alcanzar tus objetivos.</p>
-            <div style="margin-bottom: 20px;">
-                <p style="color: var(--gold); font-weight: 700;">WHATSAPP</p>
-                <p>+54 9 11 3857 4364</p>
-            </div>
-            <div style="margin-bottom: 20px;">
-                <p style="color: var(--gold); font-weight: 700;">UBICACIÓN</p>
-                <p>San Miguel del Monte, Buenos Aires</p>
-            </div>
-            <div style="margin-top: 30px;">
-                <a href="https://www.instagram.com/levora.leonix" style="color: white; font-size: 1.5rem; margin-right: 20px;"><i class="fab fa-instagram"></i></a>
-                <a href="https://www.tiktok.com/@levora.leonix" style="color: white; font-size: 1.5rem;"><i class="fab fa-tiktok"></i></a>
-            </div>
-        </div>
-        <div class="contact-box">
-            <form class="form-st">
-                <input type="text" placeholder="NOMBRE COMPLETO" required>
-                <input type="email" placeholder="EMAIL DE CONTACTO" required>
-                <textarea rows="5" placeholder="¿EN QUÉ PODEMOS AYUDARTE?"></textarea>
-                <button type="submit">Enviar Consulta</button>
-            </form>
-        </div>
-    </section>
+                    <!-- Botones de Acción -->
+                    <div class="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3">
+                        <!-- Botón Principal Rosado Elegante -->
+                        <button 
+                            type="submit" 
+                            id="btn-generate"
+                            class="w-full sm:w-auto min-w-[250px] py-3.5 px-7 rounded-xl bg-[#D85A88] hover:bg-[#c24875] active:scale-[0.99] text-white font-semibold text-xs sm:text-sm tracking-wider uppercase shadow-md hover:shadow-lg transition flex items-center justify-center gap-2 cursor-pointer"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                            </svg>
+                            GENERAR MI CERTIFICADO
+                        </button>
 
-    <footer>
-        <p>© 2024 Andy Casabe | LEVORA & LEONIX</p>
-        <p style="margin-top: 10px; opacity: 0.5;">DISEÑO POR ALONDRA SOLANGE FERNÁNDEZ</p>
+                        <!-- Botón Secundario Descargar PDF -->
+                        <button 
+                            type="button" 
+                            id="btn-download-pdf"
+                            class="w-full sm:w-auto min-w-[230px] py-3.5 px-7 rounded-xl bg-neutral-900 hover:bg-neutral-800 active:scale-[0.99] text-white font-semibold text-xs sm:text-sm tracking-wider uppercase shadow-md hover:shadow-lg transition flex items-center justify-center gap-2 cursor-pointer"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-[#f3a6c2]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                            </svg>
+                            <span id="btn-download-text">DESCARGAR EN PDF</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- 2. PANEL INFERIOR: EL DIPLOMA EN FORMATO HORIZONTAL -->
+        <section id="diploma-section" class="flex flex-col items-center">
+            <div class="w-full flex items-center justify-between mb-2.5 px-1">
+                <span class="text-xs font-semibold uppercase tracking-wider text-neutral-500 flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-[#D85A88]"></span>
+                    Vista Previa del Diploma (Formato A4 Horizontal)
+                </span>
+                <span class="text-[11px] text-neutral-400">Listo para imprimir o compartir</span>
+            </div>
+
+            <!-- Marco contenedor con escalado automático para móviles, tablets y PC -->
+            <div id="scale-wrapper" class="w-full rounded-2xl bg-neutral-200/70 p-2 sm:p-5 border border-neutral-200 shadow-inner flex justify-center overflow-hidden">
+                <div class="certificate-viewport" id="certificate-viewport">
+                    
+                    <!-- ===================================================================== -->
+                    <!-- DISEÑO DEL DIPLOMA (1122px x 794px - PROPORCIÓN A4 HORIZONTAL)        -->
+                    <!-- ===================================================================== -->
+                    <div id="certificate-canvas" class="shadow-2xl select-none">
+                        <div class="w-full h-full bg-[#FFFFFF] p-7 relative flex flex-col justify-between overflow-hidden">
+                            
+                            <!-- Destellos rosados muy sutiles en esquinas opuestas -->
+                            <div class="absolute -top-28 -left-28 w-80 h-80 rounded-full bg-[#fdf2f6] opacity-90 pointer-events-none"></div>
+                            <div class="absolute -bottom-28 -right-28 w-80 h-80 rounded-full bg-[#fdf2f6] opacity-90 pointer-events-none"></div>
+
+                            <!-- Doble Marco Decorativo Rosado -->
+                            <div class="w-full h-full border-[3px] border-[#D85A88] p-2 relative z-10 flex flex-col justify-between">
+                                <div class="w-full h-full border border-[#E88DAE] px-14 py-9 relative flex flex-col justify-between bg-[#FFFFFF]">
+                                    
+                                    <!-- Ornamentos delicados en las 4 esquinas -->
+                                    <!-- Superior Izquierda -->
+                                    <svg class="w-14 h-14 text-[#D85A88] absolute top-2 left-2" viewBox="0 0 64 64" fill="none">
+                                        <path d="M2 2H28C14 2 2 14 2 28V2Z" fill="#fce8ef"/>
+                                        <path d="M2 38V2H38" stroke="currentColor" stroke-width="2"/>
+                                        <path d="M8 24V8H24" stroke="#E88DAE" stroke-width="1.2"/>
+                                        <circle cx="15" cy="15" r="2.2" fill="currentColor"/>
+                                    </svg>
+                                    <!-- Superior Derecha -->
+                                    <svg class="w-14 h-14 text-[#D85A88] absolute top-2 right-2 rotate-90" viewBox="0 0 64 64" fill="none">
+                                        <path d="M2 2H28C14 2 2 14 2 28V2Z" fill="#fce8ef"/>
+                                        <path d="M2 38V2H38" stroke="currentColor" stroke-width="2"/>
+                                        <path d="M8 24V8H24" stroke="#E88DAE" stroke-width="1.2"/>
+                                        <circle cx="15" cy="15" r="2.2" fill="currentColor"/>
+                                    </svg>
+                                    <!-- Inferior Izquierda -->
+                                    <svg class="w-14 h-14 text-[#D85A88] absolute bottom-2 left-2 -rotate-90" viewBox="0 0 64 64" fill="none">
+                                        <path d="M2 2H28C14 2 2 14 2 28V2Z" fill="#fce8ef"/>
+                                        <path d="M2 38V2H38" stroke="currentColor" stroke-width="2"/>
+                                        <path d="M8 24V8H24" stroke="#E88DAE" stroke-width="1.2"/>
+                                        <circle cx="15" cy="15" r="2.2" fill="currentColor"/>
+                                    </svg>
+                                    <!-- Inferior Derecha -->
+                                    <svg class="w-14 h-14 text-[#D85A88] absolute bottom-2 right-2 rotate-180" viewBox="0 0 64 64" fill="none">
+                                        <path d="M2 2H28C14 2 2 14 2 28V2Z" fill="#fce8ef"/>
+                                        <path d="M2 38V2H38" stroke="currentColor" stroke-width="2"/>
+                                        <path d="M8 24V8H24" stroke="#E88DAE" stroke-width="1.2"/>
+                                        <circle cx="15" cy="15" r="2.2" fill="currentColor"/>
+                                    </svg>
+
+                                    <!-- ENCABEZADO DEL DIPLOMA -->
+                                    <div class="text-center pt-2">
+                                        <div class="inline-flex items-center gap-3 mb-2">
+                                            <span class="h-[1px] w-12 bg-[#E88DAE]"></span>
+                                            <span class="text-[11px] font-semibold tracking-[0.28em] uppercase text-[#D85A88]">
+                                                Capacitación Profesional • Propiedad Industrial
+                                            </span>
+                                            <span class="h-[1px] w-12 bg-[#E88DAE]"></span>
+                                        </div>
+
+                                        <h1 class="font-serif-title text-[46px] leading-tight font-bold tracking-[0.06em] text-[#D85A88] uppercase">
+                                            CERTIFICADO DE FINALIZACIÓN
+                                        </h1>
+
+                                        <!-- Línea ornamental -->
+                                        <div class="flex items-center justify-center gap-3 mt-2.5">
+                                            <div class="h-[1px] w-32 bg-gradient-to-r from-transparent to-[#D85A88]"></div>
+                                            <svg class="w-4 h-4 text-[#D85A88]" viewBox="0 0 24 24" fill="currentColor">
+                                                <path d="M12 2L14.8 9.2L22 12L14.8 14.8L12 22L9.2 14.8L2 12L9.2 9.2L12 2Z"/>
+                                            </svg>
+                                            <div class="h-[1px] w-32 bg-gradient-to-l from-transparent to-[#D85A88]"></div>
+                                        </div>
+                                    </div>
+
+                                    <!-- CUERPO CENTRAL DEL DIPLOMA -->
+                                    <div class="text-center my-auto py-2">
+                                        <p class="font-serif-body italic text-[25px] text-[#1A1A1A] mb-3">
+                                            Se otorga el presente certificado a
+                                        </p>
+
+                                        <!-- Nombre y Apellido del Alumno -->
+                                        <div class="max-w-3xl mx-auto px-4">
+                                            <p id="cert-student-name" class="font-serif-title text-[44px] leading-tight font-bold text-[#1A1A1A] tracking-wide pb-2 border-b-2 border-[#E88DAE] inline-block min-w-[480px]">
+                                                Nombre y Apellido del Alumno
+                                            </p>
+                                        </div>
+
+                                        <p class="text-[15px] text-[#1A1A1A] mt-6 max-w-2xl mx-auto leading-relaxed">
+                                            Por haber completado satisfactoriamente el
+                                        </p>
+
+                                        <!-- Nombre del Curso Destacado -->
+                                        <div class="mt-2.5 inline-block px-7 py-2.5 rounded-full bg-[#fdf3f7] border border-[#f2c6d6]">
+                                            <h2 class="text-[21px] font-bold tracking-wide text-[#1A1A1A]">
+                                                Curso de Registración de Marcas – <span class="text-[#D85A88]">INPI Argentina</span>
+                                            </h2>
+                                        </div>
+
+                                        <!-- Fecha de Finalización -->
+                                        <p class="text-[14px] font-medium text-[#1A1A1A] mt-5">
+                                            Finalizado el <span id="cert-date" class="font-bold text-[#1A1A1A] border-b border-dotted border-[#D85A88] pb-0.5">25 de noviembre de 2026</span>
+                                        </p>
+                                    </div>
+
+                                    <!-- PIE DEL DIPLOMA: SELLO Y FIRMA -->
+                                    <div class="grid grid-cols-3 items-end pt-1 pb-1">
+                                        
+                                        <!-- Izquierda: Referencia -->
+                                        <div class="text-left pl-3 pb-2">
+                                            <p class="text-[11px] uppercase tracking-widest text-[#D85A88] font-bold">República Argentina</p>
+                                            <p class="text-xs text-[#1A1A1A] mt-0.5">Formación Especializada en</p>
+                                            <p class="text-xs font-semibold text-[#1A1A1A]">Registro y Gestión de Marcas</p>
+                                        </div>
+
+                                        <!-- Centro: Sello Minimalista Rosado, Dorado y Negro -->
+                                        <div class="flex flex-col items-center justify-center">
+                                            <div class="w-24 h-24 relative flex items-center justify-center">
+                                                <svg viewBox="0 0 120 120" class="w-full h-full">
+                                                    <circle cx="60" cy="60" r="54" fill="#fdf5f8" stroke="#D85A88" stroke-width="2" stroke-dasharray="4 3"/>
+                                                    <circle cx="60" cy="60" r="46" fill="#ffffff" stroke="#c59b5f" stroke-width="1.5"/>
+                                                    <circle cx="60" cy="60" r="41" fill="none" stroke="#E88DAE" stroke-width="1"/>
+                                                    
+                                                    <path id="curveTop" d="M 22,60 A 38,38 0 1,1 98,60" fill="none"/>
+                                                    <path id="curveBottom" d="M 98,60 A 38,38 0 1,1 22,60" fill="none"/>
+                                                    
+                                                    <text font-size="7.3" font-weight="700" fill="#D85A88" letter-spacing="2.1">
+                                                        <textPath href="#curveTop" startOffset="50%" text-anchor="middle">CERTIFICADO OFICIAL</textPath>
+                                                    </text>
+                                                    <text font-size="7.1" font-weight="700" fill="#1A1A1A" letter-spacing="2">
+                                                        <textPath href="#curveBottom" startOffset="50%" text-anchor="middle">INPI ARGENTINA</textPath>
+                                                    </text>
+
+                                                    <text x="60" y="58" text-anchor="middle" font-family="'Playfair Display', serif" font-size="18" font-weight="700" fill="#1A1A1A">ASF</text>
+                                                    <line x1="42" y1="64" x2="78" y2="64" stroke="#c59b5f" stroke-width="1.3"/>
+                                                    <text x="60" y="74" text-anchor="middle" font-family="'Montserrat', sans-serif" font-size="6.5" font-weight="700" fill="#D85A88" letter-spacing="1.5">MARCAS</text>
+                                                </svg>
+                                            </div>
+                                        </div>
+
+                                        <!-- Derecha: Firma de la Autora -->
+                                        <div class="text-center pr-3">
+                                            <!-- Rúbrica caligráfica sutil -->
+                                            <div class="h-14 flex items-end justify-center mb-1">
+                                                <span class="font-signature text-[36px] text-[#1A1A1A] leading-none transform -rotate-2">
+                                                    Alondra S. Fernández
+                                                </span>
+                                            </div>
+                                            <!-- Línea de firma rosada -->
+                                            <div class="w-64 mx-auto border-t border-[#D85A88] pt-1.5">
+                                                <p class="text-xs font-bold tracking-wider uppercase text-[#1A1A1A]">
+                                                    Alondra Solange Fernández
+                                                </p>
+                                                <p class="text-[11px] font-semibold text-[#D85A88]">
+                                                    Autora y Docente del Curso
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- ===================================================================== -->
+                    <!-- FIN DEL DIPLOMA                                                       -->
+                    <!-- ===================================================================== -->
+
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- PIE DE PÁGINA -->
+    <footer class="bg-white border-t border-pink-100 py-4 mt-10">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between text-xs text-neutral-500 gap-2 text-center">
+            <p>© <span id="current-year"></span> <strong>Alondra Solange Fernández</strong>. Todos los derechos reservados.</p>
+            <p>Curso de Registración de Marcas – INPI Argentina</p>
+        </div>
     </footer>
 
-    <!-- Lógica del Slider -->
+    <!-- SCRIPTS DE INTERACTIVIDAD Y DESCARGA PDF -->
     <script>
-        const slides = document.querySelectorAll('.slide');
-        let currentSlide = 0;
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('certificate-form');
+            const nameInput = document.getElementById('student-name');
+            const dateInput = document.getElementById('completion-date');
+            const certNameDisplay = document.getElementById('cert-student-name');
+            const certDateDisplay = document.getElementById('cert-date');
+            const feedbackBox = document.getElementById('feedback-message');
+            const downloadBtn = document.getElementById('btn-download-pdf');
+            const downloadBtnText = document.getElementById('btn-download-text');
+            const diplomaSection = document.getElementById('diploma-section');
 
-        function nextSlide() {
-            slides[currentSlide].classList.remove('active');
-            currentSlide = (currentSlide + 1) % slides.length;
-            slides[currentSlide].classList.add('active');
-        }
+            document.getElementById('current-year').textContent = new Date().getFullYear();
 
-        setInterval(nextSlide, 5000); // Cambia cada 5 segundos
+            // Fecha actual por defecto
+            const today = new Date();
+            const yyyy = today.getFullYear();
+            const mm = String(today.getMonth() + 1).padStart(2, '0');
+            const dd = String(today.getDate()).padStart(2, '0');
+            const defaultDate = `${yyyy}-${mm}-${dd}`;
+            dateInput.value = defaultDate;
+
+            function formatDateSpanish(dateString) {
+                if (!dateString) return '____ de ____________ de 20__';
+                const months = [
+                    'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
+                    'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'
+                ];
+                const parts = dateString.split('-');
+                if (parts.length !== 3) return dateString;
+                return `${parseInt(parts[2], 10)} de ${months[parseInt(parts[1], 10) - 1]} de ${parts[0]}`;
+            }
+
+            certDateDisplay.textContent = formatDateSpanish(defaultDate);
+
+            function showFeedback(message, type = 'error') {
+                feedbackBox.textContent = message;
+                feedbackBox.classList.remove('hidden', 'bg-red-50', 'text-red-700', 'border-red-200', 'bg-emerald-50', 'text-emerald-800', 'border-emerald-200');
+                if (type === 'error') {
+                    feedbackBox.classList.add('bg-red-50', 'text-red-700', 'border', 'border-red-200');
+                } else {
+                    feedbackBox.classList.add('bg-emerald-50', 'text-emerald-800', 'border', 'border-emerald-200');
+                }
+            }
+
+            function hideFeedback() {
+                feedbackBox.classList.add('hidden');
+            }
+
+            function updateDiploma() {
+                const rawName = nameInput.value.trim();
+                certNameDisplay.textContent = rawName.length > 0 ? rawName : 'Nombre y Apellido del Alumno';
+                
+                if (rawName.length > 36) {
+                    certNameDisplay.style.fontSize = '32px';
+                } else if (rawName.length > 28) {
+                    certNameDisplay.style.fontSize = '38px';
+                } else {
+                    certNameDisplay.style.fontSize = '44px';
+                }
+
+                certDateDisplay.textContent = formatDateSpanish(dateInput.value);
+            }
+
+            nameInput.addEventListener('input', () => {
+                hideFeedback();
+                updateDiploma();
+            });
+
+            dateInput.addEventListener('change', () => {
+                hideFeedback();
+                updateDiploma();
+            });
+
+            // Botón GENERAR MI CERTIFICADO
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const studentName = nameInput.value.trim();
+                const completionDate = dateInput.value;
+
+                if (!studentName) {
+                    showFeedback('Por favor, escribí tu Nombre y Apellido para generar el certificado.', 'error');
+                    nameInput.focus();
+                    return;
+                }
+
+                if (!completionDate) {
+                    showFeedback('Por favor, seleccioná la fecha en que terminaste el curso.', 'error');
+                    dateInput.focus();
+                    return;
+                }
+
+                updateDiploma();
+                showFeedback('¡Certificado generado! Deslizá hacia abajo para verlo o descargalo en PDF.', 'success');
+                diplomaSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            });
+
+            // Botón DESCARGAR EN PDF
+            downloadBtn.addEventListener('click', () => {
+                const studentName = nameInput.value.trim();
+                const completionDate = dateInput.value;
+
+                if (!studentName) {
+                    showFeedback('Antes de descargar, ingresá tu Nombre y Apellido.', 'error');
+                    nameInput.focus();
+                    return;
+                }
+
+                if (!completionDate) {
+                    showFeedback('Antes de descargar, seleccioná la fecha de finalización.', 'error');
+                    dateInput.focus();
+                    return;
+                }
+
+                updateDiploma();
+
+                const originalText = downloadBtnText.textContent;
+                downloadBtnText.textContent = 'GENERANDO PDF...';
+                downloadBtn.disabled = true;
+                downloadBtn.classList.add('opacity-75', 'cursor-wait');
+
+                // Clonamos el diploma a escala real 1:1 para evitar cortes o márgenes en cualquier dispositivo
+                const originalCert = document.getElementById('certificate-canvas');
+                const cloneContainer = document.createElement('div');
+                cloneContainer.style.position = 'fixed';
+                cloneContainer.style.left = '-9999px';
+                cloneContainer.style.top = '0';
+                cloneContainer.style.width = '1122px';
+                cloneContainer.style.height = '794px';
+                cloneContainer.style.zIndex = '-1';
+
+                const clonedCert = originalCert.cloneNode(true);
+                clonedCert.style.transform = 'none';
+                clonedCert.style.boxShadow = 'none';
+                cloneContainer.appendChild(clonedCert);
+                document.body.appendChild(cloneContainer);
+
+                const safeFileName = studentName
+                    .normalize("NFD")
+                    .replace(/[\u0300-\u036f]/g, "")
+                    .replace(/[^a-zA-Z0-9\s]/g, "")
+                    .trim()
+                    .replace(/\s+/g, '_');
+
+                const opt = {
+                    margin:       0,
+                    filename:     `Certificado_INPI_${safeFileName || 'Alumno'}.pdf`,
+                    image:        { type: 'jpeg', quality: 0.98 },
+                    html2canvas:  { 
+                        scale: 2, 
+                        useCORS: true, 
+                        letterRendering: true,
+                        width: 1122,
+                        height: 794
+                    },
+                    jsPDF:        { 
+                        unit: 'px', 
+                        format: [1122, 794], 
+                        orientation: 'landscape',
+                        hotfixes: ['px_scaling']
+                    }
+                };
+
+                html2pdf().set(opt).from(clonedCert).save().then(() => {
+                    document.body.removeChild(cloneContainer);
+                    downloadBtnText.textContent = originalText;
+                    downloadBtn.disabled = false;
+                    downloadBtn.classList.remove('opacity-75', 'cursor-wait');
+                    showFeedback('¡Tu certificado en PDF se descargó correctamente!', 'success');
+                }).catch((err) => {
+                    console.error(err);
+                    if (document.body.contains(cloneContainer)) {
+                        document.body.removeChild(cloneContainer);
+                    }
+                    downloadBtnText.textContent = originalText;
+                    downloadBtn.disabled = false;
+                    downloadBtn.classList.remove('opacity-75', 'cursor-wait');
+                    showFeedback('Hubo un error al generar el PDF. Intentá nuevamente.', 'error');
+                });
+            });
+
+            // Escalado automático del diploma en pantalla según el ancho del dispositivo
+            function resizeDiploma() {
+                const wrapper = document.getElementById('scale-wrapper');
+                const viewport = document.getElementById('certificate-viewport');
+                const canvas = document.getElementById('certificate-canvas');
+                if (!wrapper || !viewport || !canvas) return;
+
+                const availableWidth = wrapper.clientWidth - (window.innerWidth < 640 ? 16 : 40);
+                const scale = Math.min(1, availableWidth / 1122);
+                
+                canvas.style.transform = `scale(${scale})`;
+                viewport.style.height = `${794 * scale}px`;
+            }
+
+            resizeDiploma();
+            window.addEventListener('resize', resizeDiploma);
+        });
     </script>
-
 </body>
 </html>
-
-```
